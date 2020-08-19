@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import withAuthService from '../../hoc/withAuthService'
 import {formSubmitter} from '../../actions/user_actions'
 import {connect} from 'react-redux';
+import { saveUserToStorage } from "../../utils/user";
 class Register extends Component {
 
     constructor(){
@@ -43,11 +44,10 @@ class Register extends Component {
         const  {userService}  = this.props;
         this.props.formSubmitter(true);
         userService.register(user).then( (response) => {
-            localStorage.setItem('access_token', response.access_token);
-            localStorage.setItem('refresh_token', response.refresh_token);
-            localStorage.setItem('expires_in', response.expires_in);
+            saveUserToStorage(response)
             this.props.formSubmitter(false)
             console.log(response, "SUCCESS_SERVICE");
+            this.props.toggleAuthModal(false);
         })
         .catch( (error) => {
             this.props.formSubmitter(false)

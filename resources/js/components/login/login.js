@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import {connect} from 'react-redux';
 import withAuthService from '../../hoc/withAuthService'
 import {formSubmitter, userDataReceiver, isAuthorised} from '../../actions/user_actions'
-
+import { saveUserToStorage } from "../../utils/user";
 class Login extends Component  {
 
     constructor(){
@@ -37,17 +37,17 @@ class Login extends Component  {
         const  {userService}  = this.props;
         this.props.formSubmitter(true);
         userService.login(user).then( (response) => {
-            localStorage.setItem('access_token', response.data.access_token);
-            localStorage.setItem('refresh_token', response.data.refresh_token);
-            localStorage.setItem('expires_in', response.data.expires_in);
+            saveUserToStorage(response)
             this.props.formSubmitter(false);
             this.props.userDataReceiver(response.data);
             this.props.isAuthorised(true);
             console.log(response, "SUCCESS_SERVICE");
+            this.props.toggleAuthModal(false);
         })
         .catch( (error) => {
             this.props.formSubmitter(false)
             this.props.isAuthorised(false);
+
             console.log(error, "ERROR_SERVICE");
         });
     }
@@ -107,7 +107,8 @@ const mapStateToProps = (state) => {
         userData: {
             access_token: state.userReducer.access_token,
             refresh_token: state.userReducer.refresh_token,
-            expires_in: state.userReducer.expires_in
+            expires_in: state.userReducer.expires_in,
+            user_id: state.userReducer.user_id
         }
     };
 }
