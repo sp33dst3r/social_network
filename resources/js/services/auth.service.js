@@ -12,9 +12,16 @@ class UserService {
         return  axios.post('/api/login', {
              email: user.email,
              password: user.password,
-         })
+        })
 
      }
+    getUser(id){
+        console.log(id, "user_id from service");
+
+        return  axios.get('/api/user', {
+
+       })
+    }
 }
 
 export{

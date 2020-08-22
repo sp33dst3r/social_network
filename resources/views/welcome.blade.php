@@ -1,5 +1,6 @@
 @extends('layouts/app')
 <div id="app"></div>
+<div id="portal"></div>
 
 
 

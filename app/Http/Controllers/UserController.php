@@ -57,8 +57,32 @@ class UserController extends Controller
                 'scope' => '*',
             ],
         ]);
+        $usr = User::where('email', $email) -> first();
 
         $result = json_decode((string) $response->getBody(), true);
+        $result['user_id']= $usr->id;
+        #array_push($result, $usr->id);
+        #echo print_r($result);die();
         return response()->json($result, $this->successStatus);
+    }
+
+    public function refreshToken(Request $request)
+    {
+        /* var_dump($request->refreshToken);
+        die(); */
+        $oClient = OClient::where('password_client', 1)->first();
+        $http = new Client;
+
+        $response = $http->post('http://soc/oauth/token', [
+            'form_params' => [
+                'grant_type' => 'refresh_token',
+                'refresh_token' => $request->refresh_token,
+                'client_id' => $oClient->id,
+                'client_secret' => $oClient->secret,
+                'scope' => '',
+            ],
+        ]);
+
+        return json_decode((string) $response->getBody(), true);
     }
 }
