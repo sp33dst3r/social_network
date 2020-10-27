@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import {connect} from 'react-redux';
-import withAuthService from '../../hoc/withAuthService'
+import withAuthService from '../../hoc/withAuthservice'
 import {formSubmitter, userDataReceiver, isAuthorised} from '../../actions/user_actions'
 import { saveUserToStorage } from "../../utils/user";
 class Login extends Component  {

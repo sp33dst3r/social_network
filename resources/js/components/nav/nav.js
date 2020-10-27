@@ -35,7 +35,9 @@ class Nav extends Component{
         const navPart = authorized == false ?
         <a onClick={toggleAuthModal}>Sign In / SignUp</a>
         :<React.Fragment>
-        <Link to={"/profile/"+user_id+"/"}>Profile</Link><Logout  toggleAuthModal={toggleAuthModal} />
+        <Link to={"/profile/"}>Profile</Link>
+        <Link to={"/lessons/"}>Lessons</Link>
+        <Logout  toggleAuthModal={toggleAuthModal} />
         </React.Fragment>
         return(
 

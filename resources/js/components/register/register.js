@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import withAuthService from '../../hoc/withAuthService'
+
+import withAuthService from '../../hoc/withAuthservice'
 import {formSubmitter} from '../../actions/user_actions'
 import {connect} from 'react-redux';
 import { saveUserToStorage } from "../../utils/user";

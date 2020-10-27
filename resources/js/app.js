@@ -24,7 +24,11 @@ import {Route, Switch} from 'react-router-dom';
 import {UserProvider, UserConsumer} from './withuser-service/withuser-service'
 import {UserService} from './services/auth.service'
 import { Provider } from "react-redux";
-axios.defaults.baseURL = "http://soc/";
+axios.defaults.baseURL = "http://soc.loc/";
+
+import Messages from './components/messages/messages';
+import Lessons from './components/lessons/lessons';
+import Settings from './components/settings/settings';
 
 axios.interceptors.request.use((config) => {
     console.log(config, "before");
@@ -120,9 +124,9 @@ class App extends Component{
                  <Switch>
 
                     {/* <Route path="/" component={Register} exact /> */}
-                    <Route path="/profile/:id/" component={Profile} exact />
+                    <Route path="/profile/" component={Profile} exact />
                     <Route path="/profile/:id/messages/" component={Messages} exact />
-                    <Route path="/profile/:id/lessons/" component={Lessons} exact />
+                    <Route path="/lessons/" component={Lessons} exact />
                     <Route path="/profile/:id/settings/" component={Settings} exact />
                 </Switch>
                 <main>

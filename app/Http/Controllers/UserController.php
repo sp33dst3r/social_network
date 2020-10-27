@@ -47,7 +47,7 @@ class UserController extends Controller
     public function getTokenAndRefreshToken(OClient $oClient, $email, $password) {
         $oClient = OClient::where('password_client', 1)->first();
         $http = new Client;
-        $response = $http->request('POST', 'http://soc/oauth/token', [
+        $response = $http->request('POST', 'http://'.request()->getHttpHost().'/oauth/token', [
             'form_params' => [
                 'grant_type' => 'password',
                 'client_id' => $oClient->id,
@@ -73,7 +73,7 @@ class UserController extends Controller
         $oClient = OClient::where('password_client', 1)->first();
         $http = new Client;
 
-        $response = $http->post('http://soc/oauth/token', [
+        $response = $http->post('http://'.request()->getHttpHost().'/oauth/token', [
             'form_params' => [
                 'grant_type' => 'refresh_token',
                 'refresh_token' => $request->refresh_token,

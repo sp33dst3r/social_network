@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ReactDOM from 'react-dom';
 import {connect} from 'react-redux'
-import withAuthService from '../../hoc/withAuthService'
+import withAuthService from '../../hoc/withAuthservice'
 class Profile extends Component{
     componentDidMount(){
         console.log("mounted");
