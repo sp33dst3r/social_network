@@ -38,6 +38,11 @@ const userReducer = (state = initialState, action) => {
                 }
 
             }
+        case userConstants.SEARCH:
+            return{
+                ...state,
+                searchData: action.payload
+            }
         default:
             return state;
         }

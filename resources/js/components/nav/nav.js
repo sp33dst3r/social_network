@@ -37,6 +37,7 @@ class Nav extends Component{
         :<React.Fragment>
         <Link to={"/profile/"}>Profile</Link>
         <Link to={"/lessons/"}>Lessons</Link>
+        <Link to={"/search-friends/"}>Search Friends</Link>
         <Logout  toggleAuthModal={toggleAuthModal} />
         </React.Fragment>
         return(
@@ -44,6 +45,7 @@ class Nav extends Component{
             <div className="nav">
                 <nav>
                     <Link to={"/"}>Home</Link>
+                    <Link to={"/search-friends"}>Search</Link>
                     {navPart}
                 </nav>
             </div>

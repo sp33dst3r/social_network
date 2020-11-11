@@ -6,6 +6,13 @@ const formSubmitter = (sbm) => {
     }
 }
 
+const search = (result) => {
+    return {
+        type: userConstants.SEARCH,
+        payload: result
+    }
+}
+
 const userDataReceiver = (userData) => {
     return {
         type: userConstants.FORM_USER_RECEIVED,
@@ -22,5 +29,6 @@ const isAuthorised = (data) => {
 export {
     formSubmitter,
     userDataReceiver,
-    isAuthorised
+    isAuthorised,
+    search
 }

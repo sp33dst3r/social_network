@@ -22,12 +22,16 @@ import {BrowserRouter as Router} from 'react-router-dom';
 import store from './store'
 import {Route, Switch} from 'react-router-dom';
 import {UserProvider, UserConsumer} from './withuser-service/withuser-service'
+import {TranslationProvider, TranslationConsumer} from './with-translation/with-translation'
 import {UserService} from './services/auth.service'
+import {Translate} from './services/translate.service'
 import { Provider } from "react-redux";
+
 axios.defaults.baseURL = "http://soc.loc/";
 
 import Messages from './components/messages/messages';
 import Lessons from './components/lessons/lessons';
+import SearchFriends from './components/search-friends/search-friends';
 import Settings from './components/settings/settings';
 
 axios.interceptors.request.use((config) => {
@@ -97,6 +101,7 @@ axios.interceptors.request.use((config) => {
 
 
 const userService = new UserService();
+const translator = new Translate();
 
 
 class App extends Component{
@@ -127,6 +132,7 @@ class App extends Component{
                     <Route path="/profile/" component={Profile} exact />
                     <Route path="/profile/:id/messages/" component={Messages} exact />
                     <Route path="/lessons/" component={Lessons} exact />
+                    <Route path="/search-friends/" component={SearchFriends} exact />
                     <Route path="/profile/:id/settings/" component={Settings} exact />
                 </Switch>
                 <main>
@@ -154,11 +160,13 @@ class App extends Component{
 if (document.getElementById('app')) {
     ReactDOM.render(
         <Provider store={store}>
-            <UserProvider value={userService}>
-                <Router>
-                    <App />
-                </Router>
-            </UserProvider>
+            <TranslationProvider value={translator}>
+                <UserProvider value={userService}>
+                    <Router>
+                        <App />
+                    </Router>
+                </UserProvider>
+            </TranslationProvider>
          </Provider>
     , document.getElementById('app'));
 }
