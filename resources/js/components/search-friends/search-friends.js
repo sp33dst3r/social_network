@@ -1,26 +1,35 @@
 import React, {Component} from 'react';
 import './friends.css'
-import { withTranslation } from 'react-i18next';
 import {connect} from 'react-redux';
+ import TranslationContext from '../../with-translation/with-translation'
+
 
 import withAuthService from '../../hoc/withAuthservice'
 class SearchFriends extends Component {
+
+
     constructor(props){
+
         super(props);
-        const { t } = this.props;
-        console.log(t("beginner"), "TT");
+
+       /*  console.log(translator, "aaa");
+        console.log(messages, "messages"); */
         this.state = {
             userSearch: {
                 gender: '',
-                level: [
-                   /// {t('simpleContent')},
-
-                ],
-                password: '',
-                password_confirmation: ''
+                levels: ["beginner"],
+                discipline: [],
             }
         }
-
+        console.log(this.state, 'ssssss');
+        /* this.setState(prevState => ({
+            userSearch: {                   // object that we want to update
+                ...prevState.userSearch,    // keep all other key-value pairs
+                levels: messages       // update the value of specific key
+            }
+        })) */
+       /*  this.setState(userSearch.levels, messages)
+        console.log(SearchFriends.context, "TranslationProvider"); */
         //this.handleSubmit = this.handleSubmit.bind(this);
         //this.handleChange = this.handleChange.bind(this);
     }
@@ -35,20 +44,31 @@ class SearchFriends extends Component {
 
     }
     render(){
-        
+        const {levels} = this.state.userSearch;
+        const {language, translator, messages} = this.props;
+        console.log(levels, "LEVELS");
+        const levelValues = messages[language];
         return (
+
             <form>
+            <select>
+                {levels.map((key) => (
+                    <option key={key}>{levelValues[key]}</option>
+                ))}
+            </select>
             <div onChange={this.onChangeValue}>
-                <input name="gender" value="male" />
-                <input name="gender" value="female" />
+                <input name="gender" type="radio" value="male" />
+                <input name="gender" type="radio" value="female" />
             </div>
-            
+
             <input onKeyPress={this.handleClick} className="search-input" />
         </form>
         )
-        
+
     }
 }
+SearchFriends.contextType = TranslationContext;
+//SearchFriends.contextType = TranslationProvider;
 const mapStateToProps = (state) => {
 
     return {
@@ -62,4 +82,4 @@ const mapDispatchToProps = (dispatch) => {
         }
     }
 }
-export default withTranslation()(withAuthService()(connect(mapStateToProps, mapDispatchToProps)(SearchFriends)));
+export default withAuthService()(connect(mapStateToProps, mapDispatchToProps)(SearchFriends));

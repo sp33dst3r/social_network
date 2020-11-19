@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import  Logout  from "../logout/logout";
 import {userDataReceiver, isAuthorised} from '../../actions/user_actions'
 import { getUserFromStorage } from "../../utils/user";
+import {Language} from '../language/language'
+import './nav.css'
 class Nav extends Component{
     componentDidMount(){
         console.log('mounted');
@@ -43,10 +45,13 @@ class Nav extends Component{
         return(
 
             <div className="nav">
-                <nav>
+                <nav className="navigation">
                     <Link to={"/"}>Home</Link>
                     <Link to={"/search-friends"}>Search</Link>
                     {navPart}
+                    <div className="right-align">
+                        <Language />
+                    </div>
                 </nav>
             </div>
         )

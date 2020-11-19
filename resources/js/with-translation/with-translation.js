@@ -1,11 +1,5 @@
 import React from 'react'
 
-const {
-    Provider: TranslationProvider,
-    Consumer: TranslationConsumer
-} = React.createContext();
+const TranslationContext = React.createContext();
 
-export {
-    TranslationProvider,
-    TranslationConsumer
-}
+export default TranslationContext;

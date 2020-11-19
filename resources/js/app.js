@@ -22,7 +22,7 @@ import {BrowserRouter as Router} from 'react-router-dom';
 import store from './store'
 import {Route, Switch} from 'react-router-dom';
 import {UserProvider, UserConsumer} from './withuser-service/withuser-service'
-import {TranslationProvider, TranslationConsumer} from './with-translation/with-translation'
+import TranslationContext from './with-translation/with-translation'
 import {UserService} from './services/auth.service'
 import {Translate} from './services/translate.service'
 import { Provider } from "react-redux";
@@ -49,7 +49,6 @@ axios.interceptors.request.use((config) => {
     },
 
     error => {
-      console.log(error, "interceptor error");
       const originalRequest = error.config;
       console.log(originalRequest, "originalRequest");
 
@@ -108,8 +107,16 @@ class App extends Component{
     constructor(){
         super();
         this.state = {
-            authModalOpened: true
+            authModalOpened: true,
+            language: 'en',
+            messages: {}
         }
+    }
+    componentDidMount(){
+       const messages = translator.getMessages();
+       this.setState({messages: messages});
+
+
     }
     toggleAuthModal(param = undefined){
         this.setState((state)=>{
@@ -119,9 +126,21 @@ class App extends Component{
         })
 
     }
+    toggleLanguage (language = 'en'){
+        this.setState((state)=>{
+            return {
+                language: language
+            }
+        })
+    }
     render(){
-        const { authModalOpened } = this.state;
+        /* console.log(this.state, 'this.state'); */
+        const { authModalOpened, messages, language } = this.state;
+        /* console.log(this.toggleLanguage, "this.toggleLanguage"); */
         return (
+            <TranslationContext.Provider value={{translator, messages, toggleLanguage: (lang)=>{
+                this.toggleLanguage(lang);
+            }}}>
             <div className="wrapper">
                 <Nav toggleAuthModal = {()=>{
                     this.toggleAuthModal();
@@ -132,7 +151,14 @@ class App extends Component{
                     <Route path="/profile/" component={Profile} exact />
                     <Route path="/profile/:id/messages/" component={Messages} exact />
                     <Route path="/lessons/" component={Lessons} exact />
-                    <Route path="/search-friends/" component={SearchFriends} exact />
+                    <Route path="/search-friends/" render={
+
+                        (props) => {
+                           /*  console.log(props, 'test'); */
+                        return <SearchFriends {...props} translator={translator} messages={messages} language={language}/>
+                    }
+
+                    }  exact />
                     <Route path="/profile/:id/settings/" component={Settings} exact />
                 </Switch>
                 <main>
@@ -152,6 +178,7 @@ class App extends Component{
                     )} */}
                 </main>
             </div>
+            </TranslationContext.Provider>
 
         )
     }
@@ -160,13 +187,12 @@ class App extends Component{
 if (document.getElementById('app')) {
     ReactDOM.render(
         <Provider store={store}>
-            <TranslationProvider value={translator}>
+
                 <UserProvider value={userService}>
                     <Router>
                         <App />
                     </Router>
                 </UserProvider>
-            </TranslationProvider>
          </Provider>
     , document.getElementById('app'));
 }
